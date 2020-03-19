@@ -62,7 +62,7 @@ three_routers = [{
     "device_type":"cisco_ios"
     }]
 
-for router in two_routers:
+for router in three_routers:
 
     connected = netmiko.ConnectHandler(**router)
     print("Router Connected")
