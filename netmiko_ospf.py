@@ -30,6 +30,7 @@ for router in three_routers:
     networks = re.findall("\d+\.\d+\.\d+\.\d+\s\d+\.\d+\.\d+\.\d+", output)
 
     for network in networks:
+        print(network)
         netmask = network.split()[1]
         nmconv = netmask.split(".")
 
