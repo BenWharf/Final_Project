@@ -11,6 +11,7 @@ router = netmiko.ConnectHandler(
 )
 
 print("Router Connected")
+
 router.disconnect()
 
 print('{:.3f}'.format(time.time() - start))
@@ -35,7 +36,9 @@ two_routers = [{
 for router in two_routers:
 
     connected = netmiko.ConnectHandler(**router)
+
     print("Router Connected")
+
     connected.disconnect()
 
 print('{:.3f}'.format(time.time() - start))
@@ -65,7 +68,9 @@ three_routers = [{
 for router in three_routers:
 
     connected = netmiko.ConnectHandler(**router)
+
     print("Router Connected")
+    
     connected.disconnect()
 
 print('{:.3f}'.format(time.time() - start))
