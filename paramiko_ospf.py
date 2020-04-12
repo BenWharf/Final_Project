@@ -35,7 +35,7 @@ for router in three_routers:
     while connected.recv_ready():
         output = output + connected.recv(65535).decode('utf-8')
 
-    networks = re.findall("\d+\.\d+\.\d+\.\d+/\d\d", output)
+    networks = re.findall(r"\d+\.\d+\.\d+\.\d+/\d\d", output)
 
     connected.send("configure terminal\n")
 

@@ -27,7 +27,7 @@ for router in three_routers:
 
     output = connected.send_command("show ip route connected")
 
-    networks = re.findall("\d+\.\d+\.\d+\.\d+/\d\d", output)
+    networks = re.findall(r"\d+\.\d+\.\d+\.\d+/\d\d", output)
 
     for network in networks:
 
