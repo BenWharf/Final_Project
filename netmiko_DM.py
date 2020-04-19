@@ -23,7 +23,8 @@ for router in three_routers:
 
     connected = netmiko.ConnectHandler(**router)
 
-    # To do
+    print("Router: " + connected.find_prompt())
+
     #show file systems
     fs_info = re.findall(r"\d+\s+\d+\s+\w+", connected.send_command("show file systems"))[0].split()
     fs_perc = '{:.2f}'.format((int(fs_info[1]) / int(fs_info[0])) * 100)
@@ -31,9 +32,9 @@ for router in three_routers:
           "Percent Used: " + str(fs_perc) + "%\n")
 
     #show memory
-    mem_use = re.search(r"\d{8}\s+\d+\s+\d+", connected.send_command("show memory statistics")).group().split()
-    mem_perc = '{:.2f}'.format((int(mem_use[2]) / int(mem_use[0])) * 100)
-    print("Memory Usage:\nTotal Memory(b): " + mem_use[0], "Free Memory(b): " + mem_use[0], 
+    mem_use = re.search(r"\d{9}\s+\d+\s+\d+", connected.send_command("show memory statistics")).group().split()
+    mem_perc = '{:.2f}'.format((int(mem_use[1]) / int(mem_use[0])) * 100)
+    print("Memory Usage:\nTotal Memory(b): " + mem_use[0], "Free Memory(b): " + mem_use[2],
           "Percent Used: " + mem_perc + "%\n")
 
     #show ip protocols
@@ -45,9 +46,10 @@ for router in three_routers:
     print("Neighbour Routers:", ", ".join(neighbours) + "\n")
 
     #backup running config
-    netmiko.file_transfer(connected, source_file="startup-config", dest_file = "/root/" + router["host"] + "config.txt", 
-                        file_system = "nvram:", direction="get")
-    
+    netmiko.file_transfer(connected, source_file="startup-config", dest_file = "/root/" + connected.find_prompt() 
+                          + "config.txt", file_system = "nvram:", direction="get")
+    print("Configuration Backed up\n")
+
     connected.disconnect()
 
 print('{:.3f}'.format(time.time() - start))
