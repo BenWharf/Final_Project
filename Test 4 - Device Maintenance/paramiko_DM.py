@@ -1,7 +1,9 @@
 import paramiko, scp, time, re
 
+#Start in-code timer
 start = time.time()
 
+#Router connection details
 three_routers = [{
     "host":"192.168.0.1",
     "username":"admin",
@@ -16,20 +18,24 @@ three_routers = [{
     "password":"admin"
     }]
 
+#Create Paramiko SSH connection client
 client = paramiko.SSHClient()
 client.set_missing_host_key_policy(paramiko.AutoAddPolicy())
 
+#Connection Loop Starts
 for router in three_routers:
 
+    #Connect to the router
     client.connect(router['host'], username=router['username'], password=router['password'])
 
+    #Create SSH shell
     connected = client.invoke_shell()
 
-    #Get Router ID
+    #Get the current routers hostname
     router_id = connected.recv(65535).decode('utf-8').strip("\r\n")
     print("Router: " + router_id)
 
-    #show file systems
+    #Get the information about the file systems
     connected.send("show file systems\n")
     fs_result = ""
     time.sleep(1)
@@ -43,7 +49,7 @@ for router in three_routers:
     print("File System Usage:\nType: " + fs_info[2], "Size(b): " + fs_info[0], "Free: " + fs_info[1],
           "Percent Used: " + str(fs_perc) + "%\n")
 
-    #show memory
+    #Get the information about the memory use
     connected.send("show memory statistics\n")
     mem_result = ""
     time.sleep(1)
@@ -58,7 +64,7 @@ for router in three_routers:
           "Percent Used: " + mem_perc + "%\n")
 
 
-    #show ip protocols
+    #Show the current dynamic routing system
     connected.send("show ip protocols\n")
     protocol_result = ""
     time.sleep(1)
@@ -70,7 +76,7 @@ for router in three_routers:
     protocol = re.search(r"\"\w+", protocol_result).group()
     print("Routing Protocol Information:\n" + "Protocol: " + protocol[1:])
 
-    #show ip ospf neighbors
+    #Show the current dynamic routing protocols neigbours
     connected.send("show ip ospf neighbor\n")
     neighbours_result = ""
     time.sleep(1)
@@ -83,12 +89,14 @@ for router in three_routers:
     print("Neighbour Routers:", ", ".join(neighbours) + "\n")
     connected.close()
 
+    #Back up the start-up configuration file using SCP
     client.connect(router['host'], username=router['username'], password=router['password'])
     scp_connection = scp.SCPClient(client.get_transport())
     scp_connection.get("nvram:startup-config", "/root/" + router_id + "config.txt")
     scp_connection.close()
     print("Configuration Backed up\n")
 
+#Close Paramiko SSH connection client
 client.close()
 
 print('{:.3f}'.format(time.time() - start))

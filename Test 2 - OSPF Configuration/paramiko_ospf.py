@@ -18,7 +18,7 @@ three_routers = [{
     "password":"admin"
     }]
 
-#Creat Paramiko SSH connection client
+#Create Paramiko SSH connection client
 client = paramiko.SSHClient()
 client.set_missing_host_key_policy(paramiko.AutoAddPolicy())
 
