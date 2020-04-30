@@ -23,6 +23,7 @@ R3 |	N/A |	Serial 1/1 |	N/A |	Fast Ethernet 0/0
 
 5. Once all the prior steps have been completed the test can be conducted, any additional configuration on the routers was added per test. The in-depth router configurations and the individual commands used to configure the Ubuntu PC can be found in the  	 [Ubuntu PC Setup](https://github.com/BenWharf/1716043_Final_Project/blob/master/Ubuntu%20PC%20Setup.txt) file
 
+##### Table 2: Interface Usage Table
 <table>
   <thead>
     <th>Hostname</th>
