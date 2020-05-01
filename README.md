@@ -7,7 +7,7 @@
 
 1. The simulated network devices are put in the configuration shown in the figure below, in this dissertation the router c3725, an unmanaged switch and a simulated Ubuntu Linux PC was used. 
 
-2. Connect the devices in the configuration shown in the figure above. In the case of this topology, the routers were connected using Serial links. The other connections, Router to Switch and PC to Switch used FastEthernet cabling. The exact interfaces used are shown below in Table 1.
+2. Connect the devices in the configuration shown in the figure above. In the case of this topology, the routers were connected using Serial links. The other connections, Router to Switch and PC to Switch used FastEthernet cabling, this may change depending on the device. The exact interfaces used in the experiment are shown below in Table 1.
 
 ##### Table 1: Interface Usage Table
 Device | Interface to R1 | Interface to R2 | Interface to R3 | Interface to Switch
